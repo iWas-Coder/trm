@@ -10,25 +10,22 @@ OUT       = trm
 
 OPTIMIZATIONS = -pipe -O3
 
-CXX ?= clang++
+CXX      ?= clang++
 CPPFLAGS ?= -I $(HDR_DIR)
 CXXFLAGS ?= -std=c++20 -Wall -Wextra -pedantic -Werror $(OPTIMIZATIONS)
-LDFLAGS ?= -static $(OPTIMIZATIONS)
+LDFLAGS  ?= -static $(OPTIMIZATIONS)
 
 SRCS := $(wildcard $(SRC_DIR)/*.cc)
 OBJS := $(patsubst $(SRC_DIR)/%.cc, $(BUILD_DIR)/%.o, $(SRCS))
 
-.PHONY: all cmd clean mrproper
+.PHONY: all clean mrproper
 
-all: $(BUILD_DIR) cmd
+all: $(BUILD_DIR) $(OUT)
 	@:
 
 $(BUILD_DIR):
 	@echo "  $(PPO_MKDIR)   $@"
 	@mkdir -p $@
-
-cmd: $(OUT)
-	@echo "$< is ready"
 
 $(OUT): $(OBJS)
 	@echo "  $(PPO_LD)      $@"
