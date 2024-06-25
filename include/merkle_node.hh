@@ -2,16 +2,18 @@
 
 #include <array>
 #include <memory>
+#include <merkle_hash.hh>
 
 namespace trm::merkle {
-  class MerkleNode {
-    std::unique_ptr<MerkleNode> m_left;
-    std::unique_ptr<MerkleNode> m_right;
-    std::array<char, 32> m_hash;
-    std::array<char, 32> computeHash(const std::array<char, 32> &left, const std::array<char, 32> &right);
+  template <DigestType T>
+  class Node {
+    std::unique_ptr<Node<T>> m_left;
+    std::unique_ptr<Node<T>> m_right;
+    Hash<T> m_hash;
+    Hash<T> merge(const Hash<T> &left, const Hash<T> &right);
   public:
-    MerkleNode(const std::array<char, 32> &hash);
-    MerkleNode(std::unique_ptr<MerkleNode> left, std::unique_ptr<MerkleNode> right);
-    std::array<char, 32> hash(void) const { return m_hash; }
+    Node(const Hash<T> &hash);
+    Node(std::unique_ptr<Node<T>> left, std::unique_ptr<Node<T>> right);
+    const Hash<T> &getHash(void) const { return m_hash; }
   };
 }

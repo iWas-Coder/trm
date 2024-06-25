@@ -4,13 +4,14 @@
 #include <merkle_node.hh>
 
 namespace trm::merkle {
-  class MerkleTree {
-    std::unique_ptr<MerkleNode> m_root;
-    std::vector<std::unique_ptr<MerkleNode>> m_leaves;
-    std::unique_ptr<MerkleNode> build(std::vector<std::unique_ptr<MerkleNode>> &nodes) const;
+  template <DigestType T>
+  class Tree {
+    std::unique_ptr<Node<T>> m_root;
+    std::vector<std::unique_ptr<Node<T>>> m_leaves;
+    std::unique_ptr<Node<T>> build(std::vector<std::unique_ptr<Node<T>>> &nodes) const;
   public:
-    MerkleTree(void) = default;
-    void insert(const std::array<char, 32> &hash);
-    std::array<char, 32> root(void) const;
+    Tree(void) = default;
+    void insert(const Hash<T> &hash);
+    std::string root(void) const;
   };
 }
