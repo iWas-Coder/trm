@@ -13,8 +13,8 @@ namespace trm::merkle {
   Node<T>::Node(const Hash<T> &hash) : m_left{nullptr}, m_right{nullptr}, m_hash{hash} {}
 
   template <DigestType T>
-  Node<T>::Node(std::unique_ptr<Node<T>> left, std::unique_ptr<Node<T>> right)
-    : m_left{std::move(left)}, m_right{std::move(right)}, m_hash{merge(this->m_left->m_hash, this->m_right->m_hash)} {}
+  Node<T>::Node(Node<T> *left, Node<T> *right)
+    : m_left{left}, m_right{right}, m_hash{merge(this->m_left->m_hash, this->m_right->m_hash)} {}
 
   template class Node<DigestType::SHA256>;
 }

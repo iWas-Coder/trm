@@ -3,19 +3,32 @@
 
 namespace trm::merkle {
   template <DigestType T>
-  std::unique_ptr<Node<T>> Tree<T>::build(std::vector<std::unique_ptr<Node<T>>> &nodes) const {
-    if (nodes.size() == 1) return std::move(nodes.at(0));
-    std::vector<std::unique_ptr<Node<T>>> parents;
+  static std::vector<Node<T> *> inter;
+
+  template <DigestType T>
+  Node<T> * Tree<T>::build(std::vector<Node<T> *> &nodes) const {
+    if (nodes.size() == 1) return nodes.at(0);
+    std::vector<Node<T> *> parents;
     for (size_t i = 0; i < nodes.size(); i += 2) {
-      if (i + 1 < nodes.size()) parents.emplace_back(std::make_unique<Node<T>>(std::move(nodes.at(i)), std::move(nodes.at(i + 1))));
-      else parents.emplace_back(std::move(nodes.at(i)));
+      if (i + 1 < nodes.size()) {
+        Node<T> *n = new Node<T>(nodes.at(i), nodes.at(i + 1));
+        parents.emplace_back(n);
+        inter<T>.emplace_back(n);
+      }
+      else parents.emplace_back(nodes.at(i));
     }
     return build(parents);
   }
 
   template <DigestType T>
+  Tree<T>::~Tree(void) {
+    for (const auto &i : m_leaves) delete i;
+    for (const auto &i : inter<T>) delete i;
+  }
+
+  template <DigestType T>
   void Tree<T>::insert(const Hash<T> &hash) {
-    m_leaves.emplace_back(std::make_unique<Node<T>>(hash));
+    m_leaves.emplace_back(new Node<T>(hash));
     if (m_leaves.size() > 1) m_root = build(m_leaves);
     else m_root = std::move(m_leaves.at(0));
   }
