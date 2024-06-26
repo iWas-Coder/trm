@@ -22,5 +22,6 @@ namespace trm::merkle {
     Digest<T> digest;
     Hash(const std::string &digest_str);
     static Hash<T> compute(const std::string &input);
+    static Hash<T> zero(void);
   };
 }

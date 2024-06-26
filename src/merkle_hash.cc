@@ -14,8 +14,12 @@ namespace trm::merkle {
     SHA256(reinterpret_cast<const unsigned char *>(input.data()), input.size(), digest_out);
     Digest<T> digest;
     std::copy(digest_out, digest_out + DigestTypeValue<T>(), digest.begin());
-    Hash<T> hash { std::string(digest.data(), digest.size()) };
-    return hash;
+    return Hash<T> { std::string(digest.data(), digest.size()) };
+  }
+
+  template <DigestType T>
+  Hash<T> Hash<T>::zero(void) {
+    return Hash<T> { std::string(DigestTypeValue<T>(), '0') };
   }
 
   template class Hash<DigestType::SHA256>;
