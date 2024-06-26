@@ -1,0 +1,49 @@
+#+AUTHOR: Wasym A. Alonso
+
+# Logo & Title
+#+begin_html
+<h1 align="center">
+<img src="assets/logo.png" alt="TRM Logo">
+<br/>
+<code>./trm</code>
+</h1>
+#+end_html
+
+# Subtitle
+#+begin_html
+<h4 align="center">
+Transactional POSIX's <code>rm</code> command
+</h4>
+#+end_html
+
+# Repository marketing badges
+#+begin_html
+<p align="center">
+<a href="https://www.buymeacoffee.com/iwas.coder">
+<img src="https://cdn.buymeacoffee.com/buttons/default-yellow.png" alt="Buy Me A Coffee" height=41>
+</a>
+</p>
+#+end_html
+
+# Repository info badges
+#+begin_html
+<p align="center">
+<img src="https://img.shields.io/github/license/iWas-Coder/trm?color=blue" alt="License">
+<img src="https://img.shields.io/github/repo-size/iWas-Coder/trm?color=blue" alt="Size">
+<img src="https://img.shields.io/github/v/tag/iWas-Coder/trm?color=blue" alt="Release">
+</p>
+#+end_html
+
+(...)
+
+* Table of Contents :toc:
+- [[#usage][Usage]]
+- [[#build-from-source][Build from source]]
+
+* Usage
+
+(...)
+
+* Build from source
+
+(...)
