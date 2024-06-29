@@ -10,10 +10,10 @@ OUT       = trm
 
 OPTIMIZATIONS = -pipe -O3
 
-CXX      ?= clang++
-CPPFLAGS ?= -I $(HDR_DIR)
-CXXFLAGS ?= -std=c++20 -Wall -Wextra -pedantic -Werror $(OPTIMIZATIONS)
-LDFLAGS  ?= -lcrypto -static-libgcc -static-libstdc++ $(OPTIMIZATIONS)
+CXX      = clang++
+CPPFLAGS = -I $(HDR_DIR)
+CXXFLAGS = -std=c++20 -Wall -Wextra -pedantic -Werror $(OPTIMIZATIONS)
+LDFLAGS  = -lcrypto -static-libgcc -static-libstdc++ $(OPTIMIZATIONS)
 
 SRCS := $(wildcard $(SRC_DIR)/*.cc)
 OBJS := $(patsubst $(SRC_DIR)/%.cc, $(BUILD_DIR)/%.o, $(SRCS))
