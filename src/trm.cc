@@ -1,19 +1,18 @@
 #include <args.hh>
 #include <iostream>
-#include <merkle_tree.hh>
+#include <block.hh>
 
 int main(int argc, char **argv) {
   trm::Args args { argc, argv };
   args.printFlags();
   args.printFiles();
 
-  trm::merkle::Tree<trm::merkle::DigestType::SHA256> tree;
+  std::vector<trm::chain::TX<trm::merkle::DigestType::SHA256>> txns;
+  for (const auto &i : args.getFiles()) txns.emplace_back(trm::chain::TX<trm::merkle::DigestType::SHA256> { i });
+  trm::chain::Block<trm::merkle::DigestType::SHA256> block { txns };
 
-  for (const auto &i : { "Hello", "World", "This is", "C++" }) {
-    tree.insert(trm::merkle::Hash<trm::merkle::DigestType::SHA256>::compute(i));
-  }
-
-  std::cout << "Merkle root: " << tree.root() << std::endl;
+  std::cout << std::endl;
+  block.print();
 
   return 0;
 }

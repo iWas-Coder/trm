@@ -1,4 +1,3 @@
-#include <iomanip>
 #include <merkle_tree.hh>
 
 template <trm::merkle::DigestType T>
@@ -36,9 +35,7 @@ namespace trm::merkle {
   template <DigestType T>
   std::string Tree<T>::root(void) const {
     if (!m_root) throw std::runtime_error("trm::merkle::Tree::root() -> the tree is empty");
-    std::stringstream ss_hash;
-    for (const auto &i : m_root->getHash().digest) ss_hash << std::hex << std::setw(2) << std::setfill('0') << (static_cast<unsigned int>(i) & 0xff);
-    return ss_hash.str();
+    return digest_to_string<T>(m_root->getHash().digest);
   }
 
   template class Tree<DigestType::SHA256>;
