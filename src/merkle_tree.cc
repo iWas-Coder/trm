@@ -1,10 +1,10 @@
 #include <iomanip>
 #include <merkle_tree.hh>
 
-namespace trm::merkle {
-  template <DigestType T>
-  static std::vector<Node<T> *> inter;
+template <trm::merkle::DigestType T>
+static std::vector<trm::merkle::Node<T> *> inter;
 
+namespace trm::merkle {
   template <DigestType T>
   Node<T> * Tree<T>::build(std::vector<Node<T> *> &nodes) const {
     if (nodes.size() == 1) return nodes.at(0);
