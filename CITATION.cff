@@ -10,5 +10,5 @@ contact:
     family-names: Atieh Alonso
     email: wasymatieh01@gmail.com
 abstract: "A transactional, atomic, reliable POSIX's rm command implementation written in C++."
-# license: ???
+license: GPL-3.0-or-later
 repository-code: "https://github.com/iWas-Coder/trm"
