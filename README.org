@@ -47,3 +47,7 @@ Transactional POSIX's <code>rm</code> command
 * Build from source
 
 (...)
+
+#+begin_src sh
+make
+#+end_src
