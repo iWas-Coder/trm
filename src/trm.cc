@@ -38,7 +38,7 @@ int main(int argc, char **argv) {
 
   std::cout << std::endl;
 
-  auto block { create_block(args.getFiles()) };
+  const auto block { create_block(args.getFiles()) };
   block.print();
 
   return 0;
