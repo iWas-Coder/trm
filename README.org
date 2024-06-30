@@ -44,6 +44,13 @@ Transactional POSIX's <code>rm</code> command
 
 (...)
 
+#+begin_example
+$ ./trm
+usage: ./trm [-dfiPRrv] file ...
+#+end_example
+
+(...)
+
 * Build from source
 
 (...)
