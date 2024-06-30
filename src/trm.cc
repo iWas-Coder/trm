@@ -23,16 +23,22 @@
 #include <iostream>
 #include <block.hh>
 
+constexpr auto digest_type { trm::merkle::DigestType::SHA256 };
+
+static inline const trm::chain::Block<digest_type> create_block(const std::vector<std::string> &files) {
+  std::vector<trm::chain::TX<digest_type>> txns;
+  for (const auto &i : files) txns.emplace_back(trm::chain::TX<digest_type> {i});
+  return trm::chain::Block<digest_type> {txns};
+}
+
 int main(int argc, char **argv) {
   trm::Args args { argc, argv };
   args.printFlags();
   args.printFiles();
 
-  std::vector<trm::chain::TX<trm::merkle::DigestType::SHA256>> txns;
-  for (const auto &i : args.getFiles()) txns.emplace_back(trm::chain::TX<trm::merkle::DigestType::SHA256> {i});
-  trm::chain::Block<trm::merkle::DigestType::SHA256> block {txns};
-
   std::cout << std::endl;
+
+  auto block { create_block(args.getFiles()) };
   block.print();
 
   return 0;
