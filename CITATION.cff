@@ -1,0 +1,14 @@
+cff-version: 1.2.0
+message: "Please cite this software using these metadata."
+type: software
+title: trm
+authors:
+  - given-names: Wasym
+    family-names: Atieh Alonso
+contact:
+  - given-names: Wasym
+    family-names: Atieh Alonso
+    email: wasymatieh01@gmail.com
+abstract: "A transactional, atomic, reliable POSIX's rm command implementation written in C++."
+# license: ???
+repository-code: "https://github.com/iWas-Coder/trm"
