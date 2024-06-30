@@ -33,9 +33,14 @@ namespace trm::merkle {
   }
 
   template <DigestType T>
-  std::string Tree<T>::root(void) const {
+  Hash<T> Tree<T>::root(void) const {
     if (!m_root) throw std::runtime_error("trm::merkle::Tree::root() -> the tree is empty");
-    return digest_to_string<T>(m_root->getHash().digest);
+    return m_root->getHash();
+  }
+
+  template <DigestType T>
+  std::string Tree<T>::root_str(void) const {
+    return digest_to_string<T>(root().digest);
   }
 
   template class Tree<DigestType::SHA256>;

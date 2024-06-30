@@ -13,6 +13,7 @@ namespace trm::merkle {
     Tree(void) = default;
     ~Tree(void);
     void insert(const Hash<T> &hash);
-    std::string root(void) const;
+    Hash<T> root(void) const;
+    std::string root_str(void) const;
   };
 }
