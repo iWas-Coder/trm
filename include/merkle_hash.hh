@@ -32,7 +32,7 @@ namespace trm::merkle {
   };
 
   template <DigestType T>
-  consteval size_t digesttype_to_value(void) {
+  inline consteval size_t digesttype_to_value(void) {
     return static_cast<size_t>(T);
   }
 
