@@ -19,6 +19,7 @@
  */
 
 
+#include <fstream>
 #include <args.hh>
 #include <iostream>
 #include <block.hh>
@@ -40,6 +41,14 @@ int main(int argc, char **argv) {
 
   const auto block { create_block(args.getFiles()) };
   block.print();
+
+  std::ofstream ofs { "blk.dat", std::ios::binary };
+  if (!ofs) {
+    std::cerr << "ERROR: unable to open file for writing (`blk.dat`)" << std::endl;
+    return 1;
+  }
+  ofs << block;
+  ofs.close();
 
   return 0;
 }

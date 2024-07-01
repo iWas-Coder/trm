@@ -43,5 +43,7 @@ namespace trm::chain {
     const merkle::Hash<T> &id(void) const { return m_header.hash; }
     const merkle::Hash<T> &prev(void) const { return m_header.prevHash; }
     void print(void) const;
+    template <merkle::DigestType U>
+    friend std::ostream &operator<<(std::ostream &os, const Block<U> &blk);
   };
 }

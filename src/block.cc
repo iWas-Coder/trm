@@ -52,5 +52,19 @@ namespace trm::chain {
     }
   }
 
+  template <merkle::DigestType T>
+  std::ostream &operator<<(std::ostream &os, const Block<T> &blk) {
+    os.write(reinterpret_cast<const char *>(&blk.m_header.hash.digest), sizeof(blk.m_header.hash.digest));
+    os.write(reinterpret_cast<const char *>(&blk.m_header.prevHash.digest), sizeof(blk.m_header.prevHash.digest));
+    os.write(reinterpret_cast<const char *>(&blk.m_header.merkleRoot.digest), sizeof(blk.m_header.merkleRoot.digest));
+    os.write(reinterpret_cast<const char *>(&blk.m_header.timestamp), sizeof(blk.m_header.timestamp));
+    for (const auto &i : blk.m_txns) {
+      os.write(reinterpret_cast<const char *>(&i.id().digest), sizeof(i.id().digest));
+      os.write(reinterpret_cast<const char *>(&i.getFile()), sizeof(i.getFile()));
+    }
+    return os;
+  }
+
   template class Block<merkle::DigestType::SHA256>;
+  template std::ostream &operator<<(std::ostream &os, const Block<merkle::DigestType::SHA256> &blk);
 }
