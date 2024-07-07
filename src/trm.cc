@@ -25,17 +25,21 @@
 #include <block.hh>
 
 constexpr auto digest_type { trm::merkle::DigestType::SHA256 };
+constexpr auto filename { "blk.dat" };
 
 static inline const trm::chain::Block<digest_type> create_block(const std::vector<std::string> &files) {
   std::vector<trm::chain::TX<digest_type>> txns;
   for (const auto &i : files) txns.emplace_back(trm::chain::TX<digest_type> {i});
+  // TODO: read file.
+  // if there are blocks, get last one and put its hash as the previous hash of the block being created down there.
+  // if there aren't, leave it as default (null hash with zeros).
   return trm::chain::Block<digest_type> {txns};
 }
 
 static inline bool write_block(const trm::chain::Block<digest_type> &blk) {
-  std::ofstream ofs { "blk.dat", std::ios::binary | std::ios::app };
+  std::ofstream ofs { filename, std::ios::binary | std::ios::app };
   if (not ofs) {
-    std::cerr << "ERROR: unable to open file for writing (`blk.dat`)" << std::endl;
+    std::cerr << "ERROR: unable to open file for writing (`" << filename << "`)" << std::endl;
     return false;
   }
   ofs << blk;
@@ -47,9 +51,9 @@ int main(int argc, char **argv) {
   args.printFlags();
   args.printFiles();
 
-  std::cout << std::endl;
-
   const auto block { create_block(args.getFiles()) };
+
+  std::cout << std::endl;
   block.print();
 
   if (not write_block(block)) return 1;
