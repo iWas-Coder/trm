@@ -32,6 +32,16 @@ static inline const trm::chain::Block<digest_type> create_block(const std::vecto
   return trm::chain::Block<digest_type> {txns};
 }
 
+static inline bool write_block(const trm::chain::Block<digest_type> &blk) {
+  std::ofstream ofs { "blk.dat", std::ios::binary | std::ios::app };
+  if (not ofs) {
+    std::cerr << "ERROR: unable to open file for writing (`blk.dat`)" << std::endl;
+    return false;
+  }
+  ofs << blk;
+  return true;
+}
+
 int main(int argc, char **argv) {
   trm::Args args { argc, argv };
   args.printFlags();
@@ -42,12 +52,7 @@ int main(int argc, char **argv) {
   const auto block { create_block(args.getFiles()) };
   block.print();
 
-  std::ofstream ofs { "blk.dat", std::ios::binary | std::ios::app };
-  if (not ofs) {
-    std::cerr << "ERROR: unable to open file for writing (`blk.dat`)" << std::endl;
-    return 1;
-  }
-  ofs << block;
+  if (not write_block(block)) return 1;
 
   return 0;
 }
