@@ -35,6 +35,6 @@ namespace trm::merkle {
   public:
     Node(const Hash<T> &hash);
     Node(Node<T> *left, Node<T> *right);
-    const Hash<T> &getHash(void) const { return m_hash; }
+    inline const Hash<T> &getHash(void) const { return m_hash; }
   };
 }

@@ -40,8 +40,8 @@ namespace trm::chain {
     std::vector<TX<T>> m_txns;
   public:
     Block(const std::vector<TX<T>> &txns, const merkle::Hash<T> &prev = merkle::Hash<T>::zero());
-    const merkle::Hash<T> &id(void) const { return m_header.hash; }
-    const merkle::Hash<T> &prev(void) const { return m_header.prevHash; }
+    inline const merkle::Hash<T> &id(void) const { return m_header.hash; }
+    inline const merkle::Hash<T> &prev(void) const { return m_header.prevHash; }
     void print(void) const;
     template <merkle::DigestType U>
     friend std::ostream &operator<<(std::ostream &os, const Block<U> &blk);

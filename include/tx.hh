@@ -32,7 +32,7 @@ namespace trm::chain {
     merkle::Hash<T> m_hash;
   public:
     TX(const std::string &file);
-    const merkle::Hash<T> &id(void) const { return m_hash; }
-    const std::string &getFile(void) const { return m_file; }
+    inline const merkle::Hash<T> &id(void) const { return m_hash; }
+    inline const std::string &getFile(void) const { return m_file; }
   };
 }

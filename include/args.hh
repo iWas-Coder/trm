@@ -31,7 +31,7 @@ namespace trm {
     std::vector<std::string> m_files;
   public:
     Args(int argc, char **argv);
-    const std::vector<std::string> &getFiles(void) const { return m_files; }
+    inline const std::vector<std::string> &getFiles(void) const { return m_files; }
     void printFlags(void) const;
     void printFiles(void) const;
   };

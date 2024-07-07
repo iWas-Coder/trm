@@ -31,7 +31,6 @@ namespace trm::merkle {
     std::vector<Node<T> *> m_leaves;
     Node<T> *build(std::vector<Node<T> *> &nodes) const;
   public:
-    Tree(void) = default;
     ~Tree(void);
     void insert(const Hash<T> &hash);
     Hash<T> root(void) const;
