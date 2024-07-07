@@ -43,12 +43,11 @@ int main(int argc, char **argv) {
   block.print();
 
   std::ofstream ofs { "blk.dat", std::ios::binary | std::ios::app };
-  if (!ofs) {
+  if (not ofs) {
     std::cerr << "ERROR: unable to open file for writing (`blk.dat`)" << std::endl;
     return 1;
   }
   ofs << block;
-  ofs.close();
 
   return 0;
 }

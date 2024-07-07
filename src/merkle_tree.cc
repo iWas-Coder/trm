@@ -55,7 +55,7 @@ namespace trm::merkle {
 
   template <DigestType T>
   Hash<T> Tree<T>::root(void) const {
-    if (!m_root) throw std::runtime_error("trm::merkle::Tree::root() -> the tree is empty");
+    if (not m_root) throw std::runtime_error("trm::merkle::Tree::root() -> the tree is empty");
     return m_root->getHash();
   }
 
