@@ -31,7 +31,7 @@ namespace trm::chain {
     m_header.prevHash = prev;
     m_header.timestamp = utils::unix_epoch_timestamp();
     merkle::Tree<T> txns_tree;
-    for (const auto &i : m_txns) txns_tree.insert(i.id());
+    for (const auto &i : m_txns) txns_tree.insert(i.getHash());
     m_header.merkleRoot = txns_tree.root();
     std::stringstream ss;
     ss << m_header.timestamp << std::endl << merkle::digest_to_string<T>(m_header.prevHash.digest) << std::endl << merkle::digest_to_string<T>(m_header.merkleRoot.digest);
@@ -47,7 +47,7 @@ namespace trm::chain {
     std::cout << "  Timestamp:      " << utils::unix_epoch_to_iso8601(m_header.timestamp) << std::endl;
     std::cout << "  Transactions:" << std::endl;
     for (const auto &i : m_txns) {
-      std::cout << "    - Hash: " << merkle::digest_to_string<T>(i.id().digest) << std::endl;
+      std::cout << "    - Hash: " << merkle::digest_to_string<T>(i.getHash().digest) << std::endl;
       std::cout << "      File: " << i.getFile() << std::endl;
       std::cout << "      Path: " << i.getPath() << std::endl;
     }
@@ -60,7 +60,7 @@ namespace trm::chain {
     os.write(reinterpret_cast<const char *>(&blk.m_header.merkleRoot.digest), sizeof(blk.m_header.merkleRoot.digest));
     os.write(reinterpret_cast<const char *>(&blk.m_header.timestamp), sizeof(blk.m_header.timestamp));
     for (const auto &i : blk.m_txns) {
-      os.write(reinterpret_cast<const char *>(&i.id().digest), sizeof(i.id().digest));
+      os.write(reinterpret_cast<const char *>(&i.getHash().digest), sizeof(i.getHash().digest));
       os.write(reinterpret_cast<const char *>(&i.getFile()), sizeof(i.getFile()));
     }
     return os;
