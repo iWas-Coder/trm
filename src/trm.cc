@@ -24,14 +24,24 @@
 #include <iostream>
 #include <block.hh>
 #include <filesystem>
+#include <unordered_set>
 
 static constexpr auto digest_type { trm::merkle::DigestType::SHA256 };
 static constexpr std::string filename { "blk.dat" };
 
 static inline const trm::chain::Block<digest_type> create_block(const std::vector<std::string> &files, const trm::Args &args) {
   std::vector<trm::chain::TX<digest_type>> txns;
+  std::unordered_set<std::string> dangerous_tgts {
+    "/", "/*",
+    "/bin", "/bin/",
+    "/dev", "/dev/",
+    "/etc", "/etc/",
+    "/usr", "/usr/",
+    "/var", "/var/"
+  };
   for (const auto &i : files) {
-    // TODO: check if it's `/` or `/*`, in that case throw runtime error
+    if (dangerous_tgts.contains(i))
+      throw std::runtime_error { "It is forbidden to operate on `/` due to its destructive nature" };
     if (not std::filesystem::exists(i))
       throw std::runtime_error { "`" + i + "` does not exist" };
     if (std::filesystem::is_directory(i)) {
