@@ -77,6 +77,7 @@ You should have received a copy of the GNU General Public License along with ~tr
 #+begin_example
 $ ./trm
 usage: ./trm [-dfiPRrv] file ...
+       ./trm {--commit|--rollback[=1]}
 #+end_example
 
 (...)
