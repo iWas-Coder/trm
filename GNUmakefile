@@ -24,48 +24,46 @@ PPO_CLEAN = CLEAN
 PPO_CXX   = CXX
 PPO_LD    = LD
 
-BUILD_DIR = build
-HDR_DIR   = include
-SRC_DIR   = src
-OUT       = trm
-
+CXX           = clang++
 OPTIMIZATIONS = -pipe -O3
 
-CXX      = clang++
-CPPFLAGS = -I $(HDR_DIR)
-CXXFLAGS = -std=c++20 -Wall -Wextra -pedantic -Werror $(OPTIMIZATIONS)
-LDFLAGS  = -lcrypto -static-libgcc -static-libstdc++ $(OPTIMIZATIONS)
-
-SRCS := $(wildcard $(SRC_DIR)/*.cc)
-OBJS := $(patsubst $(SRC_DIR)/%.cc, $(BUILD_DIR)/%.o, $(SRCS))
+TRM_HDR_DIR   = include
+TRM_SRC_DIR   = src
+TRM_BUILD_DIR = build
+TRM_SRCS     := $(wildcard $(TRM_SRC_DIR)/*.cc)
+TRM_OBJS     := $(patsubst $(TRM_SRC_DIR)/%.cc, $(TRM_BUILD_DIR)/%.o, $(TRM_SRCS))
+TRM_CPPFLAGS  = -I $(TRM_HDR_DIR)
+TRM_CXXFLAGS  = -std=c++20 -Wall -Wextra -Wpedantic -Werror $(OPTIMIZATIONS)
+TRM_LDFLAGS   = -lcrypto -static-libgcc -static-libstdc++ $(OPTIMIZATIONS)
+TRM_OUT       = trm
 
 .PHONY: all clean mrproper
 
-all: $(BUILD_DIR) $(OUT)
+all: $(TRM_BUILD_DIR) $(TRM_OUT)
 	@:
 
-$(BUILD_DIR):
+$(TRM_BUILD_DIR):
 	@echo "  $(PPO_MKDIR)   $@"
 	@mkdir -p $@
 
-$(OUT): $(OBJS)
+$(TRM_OUT): $(TRM_OBJS)
 	@echo "  $(PPO_LD)      $@"
-	@$(CXX) $^ $(LDFLAGS) -o $@
+	@$(CXX) $^ $(TRM_LDFLAGS) -o $@
 
-$(BUILD_DIR)/%.o: $(SRC_DIR)/%.cc
+$(TRM_BUILD_DIR)/%.o: $(TRM_SRC_DIR)/%.cc
 	@echo "  $(PPO_CXX)     $@"
-	@$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c -MD $< -o $@
+	@$(CXX) $(TRM_CPPFLAGS) $(TRM_CXXFLAGS) -c -MD $< -o $@
 
--include $(BUILD_DIR)/*.d
+-include $(TRM_BUILD_DIR)/*.d
 
 clean:
-	@if [ -d $(BUILD_DIR) ]; then           \
-	  echo "  $(PPO_CLEAN)   $(BUILD_DIR)"; \
-	  rm -r $(BUILD_DIR);                   \
+	@if [ -d $(TRM_BUILD_DIR) ]; then           \
+	  echo "  $(PPO_CLEAN)   $(TRM_BUILD_DIR)"; \
+	  rm -r $(TRM_BUILD_DIR);                   \
 	fi
 
 mrproper: clean
-	@if [ -e $(OUT) ]; then           \
-	  echo "  $(PPO_CLEAN)   $(OUT)"; \
-	  rm $(OUT);                      \
+	@if [ -e $(TRM_OUT) ]; then           \
+	  echo "  $(PPO_CLEAN)   $(TRM_OUT)"; \
+	  rm $(TRM_OUT);                      \
 	fi
