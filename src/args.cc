@@ -45,6 +45,11 @@ namespace trm {
     if (m_files.empty()) { error(argv[0]); }
   }
 
+  bool Args::isEnabled(char flag) const {
+    try { return m_flags.at(flag); }
+    catch (const std::out_of_range &e) { return false; }
+  }
+
   void Args::printFlags(void) const {
     std::cout << "Flags:" << std::endl;
     for (const auto &i : m_flags) std::cout << "  " << i.first << ": " << std::boolalpha << i.second << std::endl;

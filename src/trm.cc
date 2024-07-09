@@ -23,38 +23,44 @@
 #include <args.hh>
 #include <iostream>
 #include <block.hh>
+#include <filesystem>
 
-constexpr auto digest_type { trm::merkle::DigestType::SHA256 };
-constexpr auto filename { "blk.dat" };
+static constexpr auto digest_type { trm::merkle::DigestType::SHA256 };
+static constexpr std::string filename { "blk.dat" };
 
-static inline const trm::chain::Block<digest_type> create_block(const std::vector<std::string> &files) {
+static inline const trm::chain::Block<digest_type> create_block(const std::vector<std::string> &files, const trm::Args &args) {
   std::vector<trm::chain::TX<digest_type>> txns;
-  for (const auto &i : files) txns.emplace_back(trm::chain::TX<digest_type> {i});
+  for (const auto &i : files) {
+    if (not std::filesystem::exists(i))
+      throw std::runtime_error { "`" + i + "` does not exist" };
+    if (std::filesystem::is_directory(i)) {
+      if (not std::filesystem::is_empty(i) && not args.isEnabled('R') && not args.isEnabled('r'))
+        throw std::runtime_error { "`" + i + "` is a non-empty directory (forgot to use the `-R/-r` flag?)" };
+      if (std::filesystem::is_empty(i) && not args.isEnabled('d') && not args.isEnabled('R') && not args.isEnabled('r'))
+        throw std::runtime_error { "`" + i + "` is an empty directory (forgot to use the `-d/-R/-r` flag?)" };
+    }
+    txns.emplace_back(trm::chain::TX<digest_type> {i});
+  }
   // TODO: read file.
   // if there are blocks, get last one and put its hash as the previous hash of the block being created down there.
   // if there aren't, leave it as default (null hash with zeros).
   return trm::chain::Block<digest_type> {txns};
 }
 
-static inline bool write_block(const trm::chain::Block<digest_type> &blk) {
+static inline void write_block(const trm::chain::Block<digest_type> &blk) {
   std::ofstream ofs { filename, std::ios::binary | std::ios::app };
-  if (not ofs) {
-    std::cerr << "ERROR: unable to open file for writing (`" << filename << "`)" << std::endl;
-    return false;
-  }
+  if (not ofs) throw std::runtime_error { "unable to open `" + filename + "` for writing" };
   ofs << blk;
-  return true;
 }
 
 int main(int argc, char **argv) {
   trm::Args args { argc, argv };
-  args.printFlags();
-  args.printFiles();
-
-  const auto block { create_block(args.getFiles()) };
-
-  std::cout << std::endl;
-  block.print();
-
-  if (not write_block(block)) return 1;
+  const auto block { create_block(args.getFiles(), args) };
+  if (args.isEnabled('v')) {
+    args.printFlags();
+    args.printFiles();
+    std::cout << std::endl;
+    block.print();
+  }
+  write_block(block);
 }

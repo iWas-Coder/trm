@@ -32,6 +32,7 @@ namespace trm {
   public:
     Args(int argc, char **argv);
     inline const std::vector<std::string> &getFiles(void) const { return m_files; }
+    bool isEnabled(char flag) const;
     void printFlags(void) const;
     void printFiles(void) const;
   };

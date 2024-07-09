@@ -40,15 +40,15 @@ namespace trm::chain {
 
   template <merkle::DigestType T>
   void Block<T>::print(void) const {
-    std::cout << "Block's Header:" << std::endl;
+    std::cout << "Operation info:" << std::endl;
     std::cout << "  Hash:           " << merkle::digest_to_string<T>(m_header.hash.digest) << std::endl;
     std::cout << "  Previous Block: " << merkle::digest_to_string<T>(m_header.prevHash.digest) << std::endl;
     std::cout << "  Merkle Root:    " << merkle::digest_to_string<T>(m_header.merkleRoot.digest) << std::endl;
     std::cout << "  Timestamp:      " << utils::unix_epoch_to_iso8601(m_header.timestamp) << std::endl;
-    std::cout << "Block's Transactions:" << std::endl;
+    std::cout << "  Transactions:" << std::endl;
     for (const auto &i : m_txns) {
-      std::cout << "  - Hash: " << merkle::digest_to_string<T>(i.id().digest) << std::endl;
-      std::cout << "    File: " << i.getFile() << std::endl;
+      std::cout << "    - Hash: " << merkle::digest_to_string<T>(i.id().digest) << std::endl;
+      std::cout << "      File: " << i.getFile() << std::endl;
     }
   }
 
