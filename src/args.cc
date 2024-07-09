@@ -20,8 +20,11 @@
 
 
 #include <args.hh>
-#include <unistd.h>
 #include <iostream>
+
+extern "C" {
+#include <unistd.h>
+}
 
 static constexpr std::string flags { "dfiPRrv" };
 
