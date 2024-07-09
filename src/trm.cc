@@ -45,9 +45,9 @@ static inline const trm::chain::Block<digest_type> create_block(const std::vecto
     if (not std::filesystem::exists(i))
       throw std::runtime_error { "`" + i + "` does not exist" };
     if (std::filesystem::is_directory(i)) {
-      if (not std::filesystem::is_empty(i) && not args.isEnabled('R') && not args.isEnabled('r'))
+      if (not (std::filesystem::is_empty(i) or args.isEnabled('R') or args.isEnabled('r')))
         throw std::runtime_error { "`" + i + "` is a non-empty directory (forgot to use the `-R/-r` flag?)" };
-      if (std::filesystem::is_empty(i) && not args.isEnabled('d') && not args.isEnabled('R') && not args.isEnabled('r'))
+      if (std::filesystem::is_empty(i) and not (args.isEnabled('d') or args.isEnabled('R') or args.isEnabled('r')))
         throw std::runtime_error { "`" + i + "` is an empty directory (forgot to use the `-d/-R/-r` flag?)" };
     }
     txns.emplace_back(trm::chain::TX<digest_type> {i});
