@@ -31,6 +31,7 @@ static constexpr std::string filename { "blk.dat" };
 static inline const trm::chain::Block<digest_type> create_block(const std::vector<std::string> &files, const trm::Args &args) {
   std::vector<trm::chain::TX<digest_type>> txns;
   for (const auto &i : files) {
+    // TODO: check if it's `/` or `/*`, in that case throw runtime error
     if (not std::filesystem::exists(i))
       throw std::runtime_error { "`" + i + "` does not exist" };
     if (std::filesystem::is_directory(i)) {

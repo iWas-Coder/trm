@@ -29,10 +29,12 @@ namespace trm::chain {
   class TX {
     uint32_t m_time;
     std::string m_file;
+    std::string m_path;
     merkle::Hash<T> m_hash;
   public:
     TX(const std::string &file);
     inline const merkle::Hash<T> &id(void) const { return m_hash; }
     inline const std::string &getFile(void) const { return m_file; }
+    inline const std::string &getPath(void) const { return m_path; }
   };
 }

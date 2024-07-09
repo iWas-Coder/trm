@@ -49,6 +49,7 @@ namespace trm::chain {
     for (const auto &i : m_txns) {
       std::cout << "    - Hash: " << merkle::digest_to_string<T>(i.id().digest) << std::endl;
       std::cout << "      File: " << i.getFile() << std::endl;
+      std::cout << "      Path: " << i.getPath() << std::endl;
     }
   }
 

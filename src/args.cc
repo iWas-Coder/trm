@@ -27,14 +27,31 @@ extern "C" {
 }
 
 static constexpr std::string flags { "dfiPRrv" };
+static constexpr std::string commit_flag { "--commit" };
+static constexpr std::string rollback_flag { "--rollback" };
 
 static inline void error(const char *prog_name) {
   std::cerr << "usage: " << prog_name << " [-" << flags << "] file ..." << std::endl;
+  std::cerr << "       " << prog_name << " {" << commit_flag << "|" << rollback_flag << "[=1]}" << std::endl;
   exit(1);
 }
 
 namespace trm {
   Args::Args(int argc, char **argv) {
+    // TODO: check if only 1 arg provided, and is `--commit`.
+    // special flag to make effective all removals made with this tool.
+    // basically, delete all blockchain data and ACTUALLY remove from disk all associated files.
+    if (argc == 2 && argv[1] == commit_flag) {
+      std::cout << "WARNING: `" << argv[1] << "` feature not yet implemented" << std::endl;
+      exit(0);
+    }
+    // TODO: check if only 1 arg provided, and is `--rollback[=1]`.
+    // special flag to delete the last block (the number can be changed with the `=` sign) and
+    // bring back the associated files to their original location.
+    if (argc == 2 && argv[1] == rollback_flag) {
+      std::cout << "WARNING: `" << argv[1] << "` feature not yet implemented" << std::endl;
+      exit(0);
+    }
     for (char c : flags) m_flags[c] = false;
     int c;
     while ((c = getopt(argc, argv, flags.c_str())) != -1) {

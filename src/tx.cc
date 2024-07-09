@@ -22,12 +22,14 @@
 #include <tx.hh>
 #include <sstream>
 #include <utils.hh>
+#include <filesystem>
 
 namespace trm::chain {
   template <merkle::DigestType T>
   TX<T>::TX(const std::string &file) : m_time{utils::unix_epoch_timestamp()}, m_file{file} {
+    m_path = std::filesystem::absolute(file);
     std::stringstream ss;
-    ss << m_time << std::endl << m_file;
+    ss << m_time << std::endl << m_file << std::endl << m_path;
     m_hash = merkle::Hash<T>::compute(ss.str());
   }
 
