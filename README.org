@@ -83,7 +83,13 @@ usage: ./trm [-dfiPRrv] file ...
 
 * Build from source
 
-(...)
+First, ensure the source tree is absolutely clean. It's recommended this command to be issued prior to each compilation; do not rely on the source tree being clean after cloning the repository or after un-tarring:
+
+#+begin_src sh
+make mrproper
+#+end_src
+
+To build ~trm~, issue the following command:
 
 #+begin_src sh
 make
