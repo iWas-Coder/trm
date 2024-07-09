@@ -57,6 +57,4 @@ int main(int argc, char **argv) {
   block.print();
 
   if (not write_block(block)) return 1;
-
-  return 0;
 }
